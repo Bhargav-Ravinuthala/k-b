@@ -819,18 +819,25 @@ a[href*="missingpiecedesign"] { display: none !important; }
     var so=new IntersectionObserver(function(es){es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('split'); so.unobserve(e.target); } });},{threshold:0.2}); so.observe(s);
     return s;
   }
+  function vis(el){return el&&el.offsetParent!==null;}
   function buildStack(){
-    var hosts=document.querySelectorAll('.framer-q56cn-container:not([data-mpdone])');
-    if(!hosts.length) return document.querySelector('.mp-stack')?true:false;
-    hosts.forEach(function(h){
-      h.setAttribute('data-mpdone','1');
-      h.style.display='none';
-      var p=h.parentElement;
-      if(p){ p.style.height='auto'; p.style.minHeight='0'; p.insertBefore(makeStack(), h.nextSibling); }
+    document.querySelectorAll('.framer-q56cn-container:not([data-mphidden])').forEach(function(h){
+      h.setAttribute('data-mphidden','1'); h.style.display='none';
+      var p=h.parentElement; if(p){ p.style.height='auto'; p.style.minHeight='0'; }
     });
+    var shown=[].slice.call(document.querySelectorAll('.mp-stack')).filter(vis);
+    if(shown.length) return true;
+    var anchor=[].slice.call(document.querySelectorAll('[data-framer-name]')).filter(function(el){
+      return (el.getAttribute('data-framer-name')||'').indexOf('Couple')>=0 && vis(el);
+    })[0];
+    if(!anchor) return false;
+    anchor.parentElement.insertBefore(makeStack(), anchor.nextSibling);
     return true;
   }
   function tick(){scan();buildStack();setMaps();}
+  window.addEventListener('resize',function(){
+    if(![].slice.call(document.querySelectorAll('.mp-stack')).filter(vis).length) buildStack();
+  });
   if(document.readyState!=='loading') tick(); else document.addEventListener('DOMContentLoaded',tick);
   var n=0,iv=setInterval(function(){tick(); if(++n>60)clearInterval(iv);},200);
 })();
