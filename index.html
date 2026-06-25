@@ -740,7 +740,9 @@ a[href*="missingpiecedesign"] { display: none !important; }
 
 .framer-1s5joo0 a, .framer-1s5joo0 .framer-text { color: rgb(214,176,92) !important; font-weight:700 !important; }
 /* one blank line after the date/time, before "Venue" */
-.framer-fkuhmo { margin-top: 1.6em !important; }</style>
+.framer-fkuhmo { margin-top: 1.6em !important; }
+/* remove "On the following events" header (single event) */
+.framer-13yttev { display:none !important; }</style>
 <script id="force-music-autoplay">
 (function(){
   var started = false;
@@ -800,17 +802,21 @@ a[href*="missingpiecedesign"] { display: none !important; }
   function setMaps(){
     document.querySelectorAll('a').forEach(function(a){
       var t=(a.textContent||'').trim().toLowerCase();
-      if(t==='see the route'||t.indexOf('open the map')>=0){a.href=MAPS;a.target='_blank';a.rel='noopener';}
+      if(t==='see the route'||t.indexOf('open the map')>=0){ a.href=MAPS; a.target='_blank'; a.rel='noopener'; a.style.pointerEvents='auto'; }
     });
     document.querySelectorAll('[data-framer-name="Click to open the map"],[data-framer-name="Map link"],[data-framer-name="CTA - Location"]').forEach(function(el){
-      if(el.__mw)return; el.__mw=1; el.style.cursor='pointer';
-      el.addEventListener('click',function(e){e.preventDefault();window.open(MAPS,'_blank','noopener');});
+      if(el.__mw)return; el.__mw=1;
+      if(getComputedStyle(el).position==='static') el.style.position='relative';
+      var ov=document.createElement('a');
+      ov.href=MAPS; ov.target='_blank'; ov.rel='noopener'; ov.setAttribute('aria-label','Open venue in Google Maps');
+      ov.style.cssText='position:absolute;inset:0;z-index:60;display:block;';
+      el.appendChild(ov);
     });
   }
   function makeStack(){
     var s=document.createElement('div'); s.className='mp-stack';
     FILES.forEach(function(f){var im=document.createElement('img');im.src='images/'+f;im.alt='Bhargavi & Bhargav';s.appendChild(im);});
-    new IntersectionObserver(function(es){es.forEach(function(e){ e.target.classList.toggle('split', e.isIntersecting); });},{threshold:0.4}).observe(s);
+    var so=new IntersectionObserver(function(es){es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('split'); so.unobserve(e.target); } });},{threshold:0.2}); so.observe(s);
     return s;
   }
   function buildStack(){
