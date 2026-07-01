@@ -755,7 +755,9 @@ a[href*="missingpiecedesign"] { display: none !important; }
 /* remove "On the following events" header (single event) */
 .framer-13yttev { display:none !important; }
 /* spacing between "Son of <parents>" and the event card (header was hidden) */
-.framer-1qb2nt1 { margin-top: 90px !important; }</style>
+.framer-1qb2nt1 { margin-top: 90px !important; }
+/* keep the map link tappable above decorations */
+.framer-1s5joo0, .framer-1s5joo0 a, .framer-2z8xos { position:relative; z-index:120; pointer-events:auto !important; }</style>
 <script id="force-music-autoplay">
 (function(){
   var started = false;
@@ -822,7 +824,7 @@ a[href*="missingpiecedesign"] { display: none !important; }
       if(getComputedStyle(el).position==='static') el.style.position='relative';
       var ov=document.createElement('a');
       ov.href=MAPS; ov.target='_blank'; ov.rel='noopener'; ov.setAttribute('aria-label','Open venue in Google Maps');
-      ov.style.cssText='position:absolute;inset:0;z-index:60;display:block;';
+      ov.style.cssText='position:absolute;inset:0;z-index:400;display:block;';
       el.appendChild(ov);
     });
   }
