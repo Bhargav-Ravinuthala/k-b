@@ -811,7 +811,13 @@ a[href*="missingpiecedesign"] { display: none !important; }
 .framer-vp0bm4 [data-framer-name="The moon"], .framer-vp0bm4 [data-framer-name="Moon"]{display:none !important;}
 
 /* remove balloon from the (light) second page only */
-.framer-vp0bm4 [data-framer-name="Hot air balloon + jotti"] { display:none !important; }</style>
+.framer-vp0bm4 [data-framer-name="Hot air balloon + jotti"] { display:none !important; }
+/* ===== Pink theme on the first-page graphics only ===== */
+.framer-139e2on{isolation:isolate;}
+.mp-pinksky{position:absolute;inset:0;z-index:60;pointer-events:none;
+  mix-blend-mode:screen;
+  background:radial-gradient(120% 90% at 50% 12%, #d98fb0 0%, #c96f9a 55%, #b45683 100%);}
+</style>
 <script id="force-music-autoplay">
 (function(){
   var started = false;
@@ -945,6 +951,13 @@ a[href*="missingpiecedesign"] { display: none !important; }
       if(r.width>280 && r.height>700){ im.classList.add('mp-lightbg'); }
     });
   }
+  function pinkSky(){
+    if(document.querySelector('.mp-pinksky')) return;
+    var hero=document.querySelector('.framer-139e2on'); if(!hero) return;
+    if(getComputedStyle(hero).position==='static') hero.style.position='relative';
+    var d=document.createElement('div'); d.className='mp-pinksky';
+    hero.appendChild(d);
+  }
   function vis(el){return el&&el.offsetParent!==null;}
   function buildStack(){
     document.querySelectorAll('.framer-q56cn-container:not([data-mphidden])').forEach(function(h){
@@ -964,7 +977,7 @@ a[href*="missingpiecedesign"] { display: none !important; }
     while(el && k<4){ el.style.height='auto'; el.style.minHeight='0'; el.style.overflow='visible'; el=el.parentElement; k++; }
     return true;
   }
-  function tick(){scan();buildStack();setMaps();stackNames();makeFireflies();heroBlessing();lightSecond();}
+  function tick(){scan();buildStack();setMaps();stackNames();makeFireflies();heroBlessing();lightSecond();pinkSky();}
   window.addEventListener('resize',function(){
     if(![].slice.call(document.querySelectorAll('.mp-stack')).filter(vis).length) buildStack();
   });
