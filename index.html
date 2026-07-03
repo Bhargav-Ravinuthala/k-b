@@ -762,7 +762,13 @@ a[href*="missingpiecedesign"] { display: none !important; }
 .framer-ti5y2d, .framer-ti5y2d p, .framer-ti5y2d div, .framer-ti5y2d span {
   font-size: 1.22em !important; line-height: 1.55 !important;
 }
-</style>
+
+/* mobile: invite variant has a fixed width:1200px with no phone override -> fit to viewport */
+@media(max-width:809.98px){
+  .framer-pi54um { width: 100% !important; max-width: 100vw !important; }
+  .framer-9qocwq, .framer-1xsdkt9 { white-space: normal !important; width: auto !important; max-width: 92vw !important; }
+  html, body, #main { overflow-x: hidden !important; }
+}</style>
 <script id="force-music-autoplay">
 (function(){
   var started = false;
