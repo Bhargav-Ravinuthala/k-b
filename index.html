@@ -772,7 +772,26 @@ a[href*="missingpiecedesign"] { display: none !important; }
 /* remove the floating castle ("Hotel") — it carried the Missingpiece watermark */
 .framer-1rs6urz, .framer-1mbm3vh, .framer-wpigon { display: none !important; }
 /* remove the balloon + moon hovering over the couple card image */
-.framer-qyzqkd, .framer-g71nwn { display: none !important; }</style>
+.framer-qyzqkd, .framer-g71nwn { display: none !important; }
+/* ===== Animated fireflies on the hero (first screen) ===== */
+#mp-fireflies{position:absolute;top:0;left:0;right:0;height:100vh;overflow:hidden;pointer-events:none;z-index:6;}
+.mp-ff{
+  position:absolute;bottom:-12px;width:var(--s);height:var(--s);border-radius:50%;
+  background:radial-gradient(circle, rgba(255,246,200,1) 0%, rgba(255,216,120,0.95) 42%, rgba(255,200,90,0) 72%);
+  box-shadow:0 0 8px 2px rgba(255,214,120,0.55), 0 0 16px 4px rgba(255,200,90,0.25);
+  opacity:0;will-change:transform,opacity;
+  animation:mp-rise var(--dur) linear var(--d1) infinite, mp-flick var(--flick) ease-in-out var(--d2) infinite;
+}
+@keyframes mp-rise{
+  0%{transform:translate(0,0);opacity:0}
+  8%{opacity:.95}
+  50%{transform:translate(var(--dxm), calc(-0.5 * var(--h)))}
+  92%{opacity:.9}
+  100%{transform:translate(var(--dx), calc(-1 * var(--h)));opacity:0}
+}
+@keyframes mp-flick{0%,100%{filter:brightness(.7)}50%{filter:brightness(1.9)}}
+@media (prefers-reduced-motion: reduce){ .mp-ff{animation:none;opacity:.5} }
+</style>
 <script id="force-music-autoplay">
 (function(){
   var started = false;
@@ -857,6 +876,31 @@ a[href*="missingpiecedesign"] { display: none !important; }
       }
     });
   }
+  function makeFireflies(){
+    if(document.getElementById('mp-fireflies')) return;
+    var hero=document.querySelector('.framer-139e2on')||document.querySelector('[data-framer-name="Section 1"]');
+    if(!hero) return;
+    if(getComputedStyle(hero).position==='static') hero.style.position='relative';
+    var box=document.createElement('div'); box.id='mp-fireflies';
+    var N=20;
+    for(var i=0;i<N;i++){
+      var f=document.createElement('span'); f.className='mp-ff';
+      var s=(2+Math.random()*3);
+      f.style.left=(Math.random()*100)+'%';
+      f.style.setProperty('--s', s.toFixed(1)+'px');
+      var dx=((Math.random()*2-1)*140);
+      f.style.setProperty('--dx', dx.toFixed(0)+'px');
+      f.style.setProperty('--dxm', (dx*0.5).toFixed(0)+'px');
+      f.style.setProperty('--h', (55+Math.random()*45)+'vh');
+      var dur=(10+Math.random()*11);
+      f.style.setProperty('--dur', dur.toFixed(1)+'s');
+      f.style.setProperty('--flick', (0.7+Math.random()*1.8).toFixed(2)+'s');
+      f.style.setProperty('--d1', (-Math.random()*dur).toFixed(1)+'s');
+      f.style.setProperty('--d2', (-Math.random()*2).toFixed(1)+'s');
+      box.appendChild(f);
+    }
+    hero.appendChild(box);
+  }
   function vis(el){return el&&el.offsetParent!==null;}
   function buildStack(){
     document.querySelectorAll('.framer-q56cn-container:not([data-mphidden])').forEach(function(h){
@@ -876,7 +920,7 @@ a[href*="missingpiecedesign"] { display: none !important; }
     while(el && k<4){ el.style.height='auto'; el.style.minHeight='0'; el.style.overflow='visible'; el=el.parentElement; k++; }
     return true;
   }
-  function tick(){scan();buildStack();setMaps();stackNames();}
+  function tick(){scan();buildStack();setMaps();stackNames();makeFireflies();}
   window.addEventListener('resize',function(){
     if(![].slice.call(document.querySelectorAll('.mp-stack')).filter(vis).length) buildStack();
   });
