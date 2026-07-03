@@ -792,14 +792,6 @@ a[href*="missingpiecedesign"] { display: none !important; }
 @keyframes mp-flick{0%,100%{filter:brightness(.7)}50%{filter:brightness(1.9)}}
 @media (prefers-reduced-motion: reduce){ .mp-ff{animation:none;opacity:.5} }
 
-/* ===== Couple painting inside the hero arch window ===== */
-.mp-arch-couple{
-  position:absolute; left:50%; top:70vh; transform:translateX(-50%);
-  width:min(56vw,300px); height:auto; z-index:4; pointer-events:none;
-  -webkit-mask-image:radial-gradient(ellipse 62% 62% at 50% 45%, #000 60%, transparent 82%);
-  mask-image:radial-gradient(ellipse 62% 62% at 50% 45%, #000 60%, transparent 82%);
-  filter:drop-shadow(0 8px 26px rgba(0,0,0,.45));
-}
 </style>
 <script id="force-music-autoplay">
 (function(){
@@ -910,14 +902,6 @@ a[href*="missingpiecedesign"] { display: none !important; }
     }
     hero.appendChild(box);
   }
-  function heroGraphic(){
-    if(document.querySelector('.mp-arch-couple')) return;
-    var hero=document.querySelector('.framer-139e2on'); if(!hero) return;
-    if(getComputedStyle(hero).position==='static') hero.style.position='relative';
-    var img=document.createElement('img');
-    img.className='mp-arch-couple'; img.src='images/hero-couple.webp'; img.alt='Bhargavi & Bhargav';
-    hero.appendChild(img);
-  }
   function vis(el){return el&&el.offsetParent!==null;}
   function buildStack(){
     document.querySelectorAll('.framer-q56cn-container:not([data-mphidden])').forEach(function(h){
@@ -937,7 +921,7 @@ a[href*="missingpiecedesign"] { display: none !important; }
     while(el && k<4){ el.style.height='auto'; el.style.minHeight='0'; el.style.overflow='visible'; el=el.parentElement; k++; }
     return true;
   }
-  function tick(){scan();buildStack();setMaps();stackNames();makeFireflies();heroGraphic();}
+  function tick(){scan();buildStack();setMaps();stackNames();makeFireflies();}
   window.addEventListener('resize',function(){
     if(![].slice.call(document.querySelectorAll('.mp-stack')).filter(vis).length) buildStack();
   });
