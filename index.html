@@ -792,6 +792,13 @@ a[href*="missingpiecedesign"] { display: none !important; }
 @keyframes mp-flick{0%,100%{filter:brightness(.7)}50%{filter:brightness(1.9)}}
 @media (prefers-reduced-motion: reduce){ .mp-ff{animation:none;opacity:.5} }
 
+
+/* ===== Traditional blessing in the hero arch space ===== */
+.mp-blessing{position:absolute;left:50%;top:58vh;transform:translateX(-50%);width:min(88vw,560px);text-align:center;z-index:5;pointer-events:none;color:#e9cd86;}
+.mp-blessing .b1{display:block;font-family:'Cormorant Garamond','Cormorant',Georgia,serif;font-weight:600;font-size:clamp(11px,3.2vw,17px);letter-spacing:.16em;text-transform:uppercase;text-shadow:0 1px 7px rgba(0,0,0,.65);}
+.mp-blessing .b1 i{opacity:.7;font-style:normal;margin:0 .35em;}
+.mp-blessing .b2{display:block;margin-top:.35em;font-family:'Cormorant Garamond','Cormorant',Georgia,serif;font-style:italic;font-weight:500;font-size:clamp(28px,9vw,54px);line-height:1.05;text-shadow:0 2px 12px rgba(0,0,0,.6);}
+@media(min-width:810px){ .mp-blessing{top:87vh;width:min(70vw,620px);} }
 </style>
 <script id="force-music-autoplay">
 (function(){
@@ -902,6 +909,14 @@ a[href*="missingpiecedesign"] { display: none !important; }
     }
     hero.appendChild(box);
   }
+  function heroBlessing(){
+    if(document.querySelector('.mp-blessing')) return;
+    var hero=document.querySelector('.framer-139e2on'); if(!hero) return;
+    if(getComputedStyle(hero).position==='static') hero.style.position='relative';
+    var d=document.createElement('div'); d.className='mp-blessing';
+    d.innerHTML='<span class="b1">Srirasthu<i>\u00b7</i>Subhamasthu<i>\u00b7</i>Avighnamasthu</span><span class="b2">Wedding Invitation</span>';
+    hero.appendChild(d);
+  }
   function vis(el){return el&&el.offsetParent!==null;}
   function buildStack(){
     document.querySelectorAll('.framer-q56cn-container:not([data-mphidden])').forEach(function(h){
@@ -921,7 +936,7 @@ a[href*="missingpiecedesign"] { display: none !important; }
     while(el && k<4){ el.style.height='auto'; el.style.minHeight='0'; el.style.overflow='visible'; el=el.parentElement; k++; }
     return true;
   }
-  function tick(){scan();buildStack();setMaps();stackNames();makeFireflies();}
+  function tick(){scan();buildStack();setMaps();stackNames();makeFireflies();heroBlessing();}
   window.addEventListener('resize',function(){
     if(![].slice.call(document.querySelectorAll('.mp-stack')).filter(vis).length) buildStack();
   });
