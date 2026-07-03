@@ -799,7 +799,19 @@ a[href*="missingpiecedesign"] { display: none !important; }
 .mp-blessing .b1 i{opacity:.7;font-style:normal;margin:0 .35em;}
 .mp-blessing .b2{display:block;margin-top:.35em;font-family:'Cormorant Garamond','Cormorant',Georgia,serif;font-style:italic;font-weight:500;font-size:clamp(28px,9vw,54px);line-height:1.05;text-shadow:0 2px 12px rgba(0,0,0,.6);}
 @media(min-width:810px){ .mp-blessing{top:87vh;width:min(70vw,620px);} }
-</style>
+
+/* ===== Light (cream) second page ===== */
+.framer-vp0bm4 .mp-lightbg{filter:invert(1) sepia(.55) saturate(.55) hue-rotate(2deg) brightness(1.12) contrast(.95) !important;}
+.framer-vp0bm4 .framer-text, .framer-vp0bm4 [data-framer-component-type="Text"] *{
+  color:#6e2233 !important; --framer-text-color:#6e2233 !important;
+  -webkit-text-stroke:0 !important; text-shadow:0 1px 0 rgba(255,255,255,.35) !important; filter:none !important;
+}
+.framer-vp0bm4 .mp-blessing{display:none !important;}
+/* hide the pale moon (invisible on cream) inside section 2 */
+.framer-vp0bm4 [data-framer-name="The moon"], .framer-vp0bm4 [data-framer-name="Moon"]{display:none !important;}
+
+/* remove balloon from the (light) second page only */
+.framer-vp0bm4 [data-framer-name="Hot air balloon + jotti"] { display:none !important; }</style>
 <script id="force-music-autoplay">
 (function(){
   var started = false;
@@ -926,6 +938,13 @@ a[href*="missingpiecedesign"] { display: none !important; }
     place(); setTimeout(place,500); setTimeout(place,1500);
     if(!window.__mpBlessResize){ window.__mpBlessResize=1; window.addEventListener('resize',place); }
   }
+  function lightSecond(){
+    var sec=document.querySelector('.framer-vp0bm4'); if(!sec) return;
+    sec.querySelectorAll('img').forEach(function(im){
+      var r=im.getBoundingClientRect();
+      if(r.width>280 && r.height>700){ im.classList.add('mp-lightbg'); }
+    });
+  }
   function vis(el){return el&&el.offsetParent!==null;}
   function buildStack(){
     document.querySelectorAll('.framer-q56cn-container:not([data-mphidden])').forEach(function(h){
@@ -945,7 +964,7 @@ a[href*="missingpiecedesign"] { display: none !important; }
     while(el && k<4){ el.style.height='auto'; el.style.minHeight='0'; el.style.overflow='visible'; el=el.parentElement; k++; }
     return true;
   }
-  function tick(){scan();buildStack();setMaps();stackNames();makeFireflies();heroBlessing();}
+  function tick(){scan();buildStack();setMaps();stackNames();makeFireflies();heroBlessing();lightSecond();}
   window.addEventListener('resize',function(){
     if(![].slice.call(document.querySelectorAll('.mp-stack')).filter(vis).length) buildStack();
   });
