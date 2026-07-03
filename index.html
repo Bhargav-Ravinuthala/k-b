@@ -850,7 +850,7 @@ a[href*="missingpiecedesign"] { display: none !important; }
     return s;
   }
   function stackNames(){
-    document.querySelectorAll('.framer-9qocwq p, .framer-9qocwq .framer-text').forEach(function(p){
+    document.querySelectorAll('.framer-9qocwq p, .framer-9qocwq .framer-text, .framer-1wj7b8h p, .framer-1wj7b8h .framer-text').forEach(function(p){
       var t=(p.textContent||'').trim();
       if(t.indexOf(' & ')>=0 && p.getElementsByTagName('br').length===0){
         p.innerHTML = t.replace(/\s*&\s*/, '<br>&<br>');
