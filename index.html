@@ -910,12 +910,21 @@ a[href*="missingpiecedesign"] { display: none !important; }
     hero.appendChild(box);
   }
   function heroBlessing(){
-    if(document.querySelector('.mp-blessing')) return;
     var hero=document.querySelector('.framer-139e2on'); if(!hero) return;
     if(getComputedStyle(hero).position==='static') hero.style.position='relative';
-    var d=document.createElement('div'); d.className='mp-blessing';
-    d.innerHTML='<span class="b1">Srirasthu<i>\u00b7</i>Subhamasthu<i>\u00b7</i>Avighnamasthu</span><span class="b2">Wedding Invitation</span>';
-    hero.appendChild(d);
+    var d=document.querySelector('.mp-blessing');
+    if(!d){ d=document.createElement('div'); d.className='mp-blessing';
+      d.innerHTML='<span class="b1">Srirasthu<i>\u00b7</i>Subhamasthu<i>\u00b7</i>Avighnamasthu</span><span class="b2">Wedding Invitation</span>';
+      hero.appendChild(d); }
+    function place(){
+      var moon=[].slice.call(hero.querySelectorAll('[data-framer-name="The moon"],[data-framer-name="Moon"]')).filter(function(m){return m.offsetParent!==null;})[0];
+      if(!moon) return;
+      var hr=hero.getBoundingClientRect(), mr=moon.getBoundingClientRect();
+      var topPx=(mr.top - hr.top) - d.offsetHeight - 16;
+      d.style.top=topPx+'px';
+    }
+    place(); setTimeout(place,500); setTimeout(place,1500);
+    if(!window.__mpBlessResize){ window.__mpBlessResize=1; window.addEventListener('resize',place); }
   }
   function vis(el){return el&&el.offsetParent!==null;}
   function buildStack(){
