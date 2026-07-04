@@ -777,38 +777,27 @@ a[href*="missingpiecedesign"] { display: none !important; }
 #mp-fireflies{position:absolute;top:0;left:0;right:0;height:100vh;overflow:hidden;pointer-events:none;z-index:6;}
 .mp-ff{
   position:absolute;bottom:-12px;width:var(--s);height:var(--s);border-radius:50%;
-  background:radial-gradient(circle, #ffffff 0%, rgba(255,244,190,0.98) 38%, rgba(255,214,120,0) 72%);
-  box-shadow:0 0 10px 3px rgba(255,240,180,0.85), 0 0 22px 7px rgba(255,205,110,0.45);
+  background:radial-gradient(circle, rgba(255,246,200,1) 0%, rgba(255,216,120,0.95) 42%, rgba(255,200,90,0) 72%);
+  box-shadow:0 0 8px 2px rgba(255,214,120,0.55), 0 0 16px 4px rgba(255,200,90,0.25);
   opacity:0;will-change:transform,opacity;
   animation:mp-rise var(--dur) linear var(--d1) infinite, mp-flick var(--flick) ease-in-out var(--d2) infinite;
 }
 @keyframes mp-rise{
   0%{transform:translate(0,0);opacity:0}
-  8%{opacity:1}
+  8%{opacity:.95}
   50%{transform:translate(var(--dxm), calc(-0.5 * var(--h)))}
-  92%{opacity:.95}
+  92%{opacity:.9}
   100%{transform:translate(var(--dx), calc(-1 * var(--h)));opacity:0}
 }
-@keyframes mp-flick{0%,100%{filter:brightness(.75)}50%{filter:brightness(2.1)}}
-/* twinkling glitter sparkles scattered across the hero */
-.mp-glit{position:absolute;width:var(--gs);height:var(--gs);pointer-events:none;
-  background:radial-gradient(circle, #ffffff 0%, rgba(255,240,190,.95) 45%, rgba(255,214,120,0) 70%);
-  border-radius:50%;opacity:0;
-  box-shadow:0 0 6px 2px rgba(255,240,190,.8);
-  animation:mp-twinkle var(--gdur) ease-in-out var(--gd) infinite;}
-.mp-glit::before,.mp-glit::after{content:"";position:absolute;left:50%;top:50%;
-  background:linear-gradient(#fff,rgba(255,255,255,0));}
-.mp-glit::before{width:1px;height:calc(var(--gs)*3);transform:translate(-50%,-50%);}
-.mp-glit::after{width:calc(var(--gs)*3);height:1px;transform:translate(-50%,-50%);}
-@keyframes mp-twinkle{0%,100%{opacity:0;transform:scale(.4)}50%{opacity:1;transform:scale(1)}}
-@media (prefers-reduced-motion: reduce){ .mp-ff,.mp-glit{animation:none;opacity:.5} }
+@keyframes mp-flick{0%,100%{filter:brightness(.7)}50%{filter:brightness(1.9)}}
+@media (prefers-reduced-motion: reduce){ .mp-ff{animation:none;opacity:.5} }
 
 
 /* ===== Traditional blessing in the hero arch space ===== */
-.mp-blessing{position:absolute;left:50%;top:77vh;transform:translateX(-50%);width:min(86vw,520px);text-align:center;z-index:5;pointer-events:none;color:#8a2242;}
-.mp-blessing .b1{display:block;font-family:'Cormorant Garamond','Cormorant',Georgia,serif;font-weight:700;font-size:clamp(9px,2.7vw,14px);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;text-shadow:0 1px 6px rgba(255,255,255,.75);}
+.mp-blessing{position:absolute;left:50%;top:77vh;transform:translateX(-50%);width:min(86vw,520px);text-align:center;z-index:5;pointer-events:none;color:#e9cd86;}
+.mp-blessing .b1{display:block;font-family:'Cormorant Garamond','Cormorant',Georgia,serif;font-weight:600;font-size:clamp(9px,2.7vw,14px);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;text-shadow:0 1px 7px rgba(0,0,0,.65);}
 .mp-blessing .b1 i{opacity:.7;font-style:normal;margin:0 .35em;}
-.mp-blessing .b2{display:block;margin-top:.35em;font-family:'Cormorant Garamond','Cormorant',Georgia,serif;font-style:italic;font-weight:600;font-size:clamp(28px,9vw,54px);line-height:1.05;text-shadow:0 2px 10px rgba(255,255,255,.7);}
+.mp-blessing .b2{display:block;margin-top:.35em;font-family:'Cormorant Garamond','Cormorant',Georgia,serif;font-style:italic;font-weight:500;font-size:clamp(28px,9vw,54px);line-height:1.05;text-shadow:0 2px 12px rgba(0,0,0,.6);}
 @media(min-width:810px){ .mp-blessing{top:87vh;width:min(70vw,620px);} }
 
 /* ===== Light (cream) second page ===== */
@@ -824,8 +813,10 @@ a[href*="missingpiecedesign"] { display: none !important; }
 /* remove balloon from the (light) second page only */
 .framer-vp0bm4 [data-framer-name="Hot air balloon + jotti"] { display:none !important; }
 
-/* ===== Pinkish-white shade INSIDE the first-page arch (not the outer frame) ===== */
-.mp-pinkbg{filter:invert(.95) sepia(.32) saturate(1.15) hue-rotate(310deg) brightness(1.16) contrast(.88) !important;}</style>
+/* ===== First page replaced by the illustrated poster ===== */
+#mp-poster-wrap{position:relative;width:100%;display:block;line-height:0;
+  background:radial-gradient(120% 90% at 50% 25%, #f7e7ea 0%, #efd4db 60%, #e7c4cd 100%);}
+#mp-poster{display:block;width:100%;height:auto;margin:0;}</style>
 <script id="force-music-autoplay">
 (function(){
   var started = false;
@@ -916,10 +907,10 @@ a[href*="missingpiecedesign"] { display: none !important; }
     if(!hero) return;
     if(getComputedStyle(hero).position==='static') hero.style.position='relative';
     var box=document.createElement('div'); box.id='mp-fireflies';
-    var N=42;
+    var N=20;
     for(var i=0;i<N;i++){
       var f=document.createElement('span'); f.className='mp-ff';
-      var s=(2.5+Math.random()*3.5);
+      var s=(2+Math.random()*3);
       f.style.left=(Math.random()*100)+'%';
       f.style.setProperty('--s', s.toFixed(1)+'px');
       var dx=((Math.random()*2-1)*140);
@@ -932,16 +923,6 @@ a[href*="missingpiecedesign"] { display: none !important; }
       f.style.setProperty('--d1', (-Math.random()*dur).toFixed(1)+'s');
       f.style.setProperty('--d2', (-Math.random()*2).toFixed(1)+'s');
       box.appendChild(f);
-    }
-    var G=46;
-    for(var g=0;g<G;g++){
-      var q=document.createElement('span'); q.className='mp-glit';
-      q.style.left=(Math.random()*100)+'%';
-      q.style.top=(Math.random()*100)+'%';
-      q.style.setProperty('--gs', (2+Math.random()*3).toFixed(1)+'px');
-      q.style.setProperty('--gdur', (1.6+Math.random()*2.6).toFixed(2)+'s');
-      q.style.setProperty('--gd', (-Math.random()*4).toFixed(2)+'s');
-      box.appendChild(q);
     }
     hero.appendChild(box);
   }
@@ -969,14 +950,6 @@ a[href*="missingpiecedesign"] { display: none !important; }
       if(r.width>280 && r.height>700){ im.classList.add('mp-lightbg'); }
     });
   }
-  function pinkSky(){
-    var hero=document.querySelector('.framer-139e2on'); if(!hero) return;
-    hero.querySelectorAll('img').forEach(function(im){
-      var par=im.closest('[data-framer-name]');
-      var nm=par?(par.getAttribute('data-framer-name')||''):'';
-      if(/star\s*base/i.test(nm)){ im.classList.add('mp-pinkbg'); }
-    });
-  }
   function vis(el){return el&&el.offsetParent!==null;}
   function buildStack(){
     document.querySelectorAll('.framer-q56cn-container:not([data-mphidden])').forEach(function(h){
@@ -996,7 +969,23 @@ a[href*="missingpiecedesign"] { display: none !important; }
     while(el && k<4){ el.style.height='auto'; el.style.minHeight='0'; el.style.overflow='visible'; el=el.parentElement; k++; }
     return true;
   }
-  function tick(){scan();buildStack();setMaps();stackNames();makeFireflies();heroBlessing();lightSecond();pinkSky();}
+  function posterHero(){
+    var hero=document.querySelector('.framer-139e2on'); if(!hero) return;
+    if(!document.getElementById('mp-poster-wrap')){
+      var w=document.createElement('div'); w.id='mp-poster-wrap';
+      var img=document.createElement('img'); img.id='mp-poster';
+      img.src='images/hero-poster.webp';
+      img.alt='Bhargavi weds Bhargav — Wedding Invitation';
+      w.appendChild(img); hero.appendChild(w);
+    }
+    // hide every original hero layer, keep only the poster
+    [].forEach.call(hero.children,function(c){ if(c.id!=='mp-poster-wrap') c.style.display='none'; });
+    // collapse the fixed hero heights so the section fits the poster
+    hero.style.height='auto'; hero.style.minHeight='0'; hero.style.overflow='visible';
+    var el=hero.parentElement,k=0;
+    while(el&&k<3){ el.style.height='auto'; el.style.minHeight='0'; el=el.parentElement; k++; }
+  }
+  function tick(){scan();posterHero();buildStack();setMaps();stackNames();lightSecond();}
   window.addEventListener('resize',function(){
     if(![].slice.call(document.querySelectorAll('.mp-stack')).filter(vis).length) buildStack();
   });
