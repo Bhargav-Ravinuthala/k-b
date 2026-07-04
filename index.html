@@ -814,16 +814,25 @@ a[href*="missingpiecedesign"] { display: none !important; }
 .framer-vp0bm4 [data-framer-name="Hot air balloon + jotti"] { display:none !important; }
 
 /* ===== First page replaced by the illustrated poster ===== */
-#mp-poster-wrap{position:relative;width:100%;display:block;line-height:0;
+#mp-poster-wrap{position:relative;width:100%;height:100vh;height:100dvh;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;line-height:0;
   background:radial-gradient(120% 90% at 50% 25%, #f7e7ea 0%, #efd4db 60%, #e7c4cd 100%);}
-#mp-poster{display:block;width:100%;height:auto;margin:0;}</style>
+#mp-poster{display:block;width:100%;height:100%;object-fit:cover;object-position:center;margin:0;}
+/* on wider screens show the whole poster (avoid cropping names/couple) */
+@media (min-width:810px){ #mp-poster{object-fit:contain;} }
+/* venue location pin, placed directly below the music button */
+#venue-map-btn{position:absolute;display:flex;align-items:center;justify-content:center;
+  border-radius:50%;background:#c9a327;box-shadow:0 3px 10px rgba(120,80,20,.35);
+  cursor:pointer;z-index:11;text-decoration:none;transition:transform .15s ease;}
+#venue-map-btn:hover{transform:scale(1.08);}
+#venue-map-btn svg{width:56%;height:56%;fill:#fff;}</style>
 <script id="force-music-autoplay">
 (function(){
   var started = false;
   function playAll(){
     document.querySelectorAll('audio').forEach(function(a){
       try {
-        a.muted = false; a.volume = 1;
+        a.muted = false; a.volume = 0.3;
         var p = a.play();
         if (p && typeof p.then === 'function') {
           p.then(function(){ started = true; }).catch(function(){});
@@ -1006,7 +1015,23 @@ a[href*="missingpiecedesign"] { display: none !important; }
     var el=hero.parentElement,k=0;
     while(el&&k<3){ el.style.height='auto'; el.style.minHeight='0'; el=el.parentElement; k++; }
   }
-  function tick(){scan();posterHero();buildStack();setMaps();stackNames();lightSecond();}
+  function placeVenuePin(){
+    var mb=document.querySelector('[data-framer-name="Add your music file"]'); if(!mb) return;
+    var parent=mb.parentElement; if(!parent) return;
+    var a=document.getElementById('venue-map-btn');
+    if(!a){
+      a=document.createElement('a'); a.id='venue-map-btn';
+      a.href=MAPS; a.target='_blank'; a.rel='noopener';
+      a.setAttribute('aria-label','Open venue location in Google Maps');
+      a.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>';
+      parent.appendChild(a);
+    }
+    var w=mb.offsetWidth||39, h=mb.offsetHeight||39;
+    a.style.width=w+'px'; a.style.height=h+'px';
+    a.style.left=mb.offsetLeft+'px';
+    a.style.top=(mb.offsetTop+h+12)+'px';
+  }
+  function tick(){scan();posterHero();buildStack();setMaps();stackNames();lightSecond();placeVenuePin();}
   window.addEventListener('resize',function(){
     if(![].slice.call(document.querySelectorAll('.mp-stack')).filter(vis).length) buildStack();
   });
