@@ -774,7 +774,7 @@ a[href*="missingpiecedesign"] { display: none !important; }
 /* remove the balloon + moon hovering over the couple card image */
 .framer-qyzqkd, .framer-g71nwn { display: none !important; }
 /* ===== Animated fireflies on the hero (first screen) ===== */
-#mp-fireflies{position:absolute;top:0;left:0;right:0;height:100vh;overflow:hidden;pointer-events:none;z-index:6;}
+#mp-fireflies{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:6;}
 .mp-ff{
   position:absolute;bottom:-12px;width:var(--s);height:var(--s);border-radius:50%;
   background:radial-gradient(circle, rgba(255,246,200,1) 0%, rgba(255,216,120,0.95) 42%, rgba(255,200,90,0) 72%);
@@ -977,6 +977,27 @@ a[href*="missingpiecedesign"] { display: none !important; }
       img.src='images/hero-poster.webp';
       img.alt='Bhargavi weds Bhargav — Wedding Invitation';
       w.appendChild(img); hero.appendChild(w);
+    }
+    // 200 fireflies drifting up and away over the poster
+    var wrap=document.getElementById('mp-poster-wrap');
+    if(wrap && !document.getElementById('mp-fireflies')){
+      var box=document.createElement('div'); box.id='mp-fireflies';
+      for(var i=0;i<200;i++){
+        var f=document.createElement('span'); f.className='mp-ff';
+        f.style.left=(Math.random()*100)+'%';
+        f.style.setProperty('--s',(1.5+Math.random()*3.5).toFixed(1)+'px');
+        var dx=((Math.random()*2-1)*160);
+        f.style.setProperty('--dx',dx.toFixed(0)+'px');
+        f.style.setProperty('--dxm',(dx*0.5).toFixed(0)+'px');
+        f.style.setProperty('--h',(70+Math.random()*55)+'vh');
+        var dur=(9+Math.random()*12);
+        f.style.setProperty('--dur',dur.toFixed(1)+'s');
+        f.style.setProperty('--flick',(0.6+Math.random()*1.9).toFixed(2)+'s');
+        f.style.setProperty('--d1',(-Math.random()*dur).toFixed(1)+'s');
+        f.style.setProperty('--d2',(-Math.random()*2).toFixed(1)+'s');
+        box.appendChild(f);
+      }
+      wrap.appendChild(box);
     }
     // hide every original hero layer, keep only the poster
     [].forEach.call(hero.children,function(c){ if(c.id!=='mp-poster-wrap') c.style.display='none'; });
