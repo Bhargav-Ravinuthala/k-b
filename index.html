@@ -919,6 +919,24 @@ a[href*="missingpiecedesign"] { display: none !important; }
       el.appendChild(ov);
     });
   }
+  function mapCircle(){
+    var im=[].slice.call(document.querySelectorAll('img')).filter(function(i){
+      return (i.getAttribute('src')||'').indexOf('gpuyLKzQFz8PbRrE1RR3LfnRWw')>=0;
+    })[0];
+    if(!im) return;
+    var host=im.parentElement; if(!host) return;
+    if(getComputedStyle(host).position==='static') host.style.position='relative';
+    var a=host.querySelector('.mp-route-link');
+    if(!a){
+      a=document.createElement('a'); a.className='mp-route-link';
+      a.href=MAPS; a.target='_blank'; a.rel='noopener';
+      a.setAttribute('aria-label','Open venue location in Google Maps');
+      host.appendChild(a);
+    }
+    a.style.cssText='position:absolute;left:'+im.offsetLeft+'px;top:'+im.offsetTop+'px;width:'+
+      im.offsetWidth+'px;height:'+im.offsetHeight+'px;border-radius:50%;z-index:500;'+
+      'display:block;pointer-events:auto;cursor:pointer;';
+  }
   function makeStack(){
     var s=document.createElement('div'); s.className='mp-stack';
     FILES.forEach(function(f){var im=document.createElement('img');im.src='images/'+f;im.alt='Bhargavi & Bhargav';s.appendChild(im);});
@@ -1063,7 +1081,7 @@ a[href*="missingpiecedesign"] { display: none !important; }
     }
     posVenuePin();
   }
-  function tick(){scan();posterHero();buildStack();setMaps();stackNames();lightSecond();placeVenuePin();}
+  function tick(){scan();posterHero();buildStack();setMaps();mapCircle();stackNames();lightSecond();placeVenuePin();}
   window.addEventListener('resize',function(){
     if(![].slice.call(document.querySelectorAll('.mp-stack')).filter(vis).length) buildStack();
   });
